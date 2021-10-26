@@ -1,5 +1,5 @@
 import datetime
-import pdb
+import pandas as pd
 import csv
 
 
@@ -22,21 +22,27 @@ class Student:
 
     def week_attendance(self, startdate, enddate):
         present_count = 0
-        with open("Attend_data.csv", "r") as csvfile:
-            csv_reader = csv.DictReader(csvfile)
+        # with open("Attend_data.csv", "r") as csvfile:
+        #     csv_reader = csv.DictReader(csvfile)
+        #
+        #     next(csv_reader)
+            #date_present2 = [row['date'].split(",")[0] for row in csv_reader]
 
-            next(csv_reader)
-            date_present2 = [row['date'].split(",")[0] for row in csv_reader]
+        df = pd.read_csv("Attend_data.csv")
+        # df = pd.DataFrame()
+        df['date'] = pd.to_datetime(df['date'], format="%Y-%m-%d")
+        start_date_conv = datetime.datetime.strptime(startdate, "%Y-%m-%d")
+        end_date_conv = datetime.datetime.strptime(enddate, "%Y-%m-%d")
+        delta = datetime.timedelta(days=1)
+        # print(dfr['date'][0])
 
-            start_date_conv = datetime.datetime.strptime(startdate, "%Y-%m-%d")
-            end_date_conv = datetime.datetime.strptime(enddate, "%Y-%m-%d")
-            delta = datetime.timedelta(days=1)
-            # pdb.set_trace()
-            for n in range(int((end_date_conv - start_date_conv).days)):
-                if startdate == date_present2[n]:
-                    present_count += 1
-                    startdate += delta
-                print(present_count)
+        for n in range(len(df['date'])):
+            if start_date_conv == df['date'][n]:
+                present_count += 1
+                start_date_conv += delta
+                if end_date_conv == df['date'][n]:
+                    break
+        print(present_count)
 
 
 
@@ -67,6 +73,11 @@ while True:
             week_start = input("Please enter week's starting date in YYYY-MM-DD format: ")
             week_end = input("Please enter week's ending date in YYYY-MM-DD format: ")
             objStudent.week_attendance(week_start, week_end)
+
+        # view_more = input("Want to see details again?").lower()
+        # if view_more =='y':
+        #     continue
+
 
         else:
             print("Please enter a valid input")
