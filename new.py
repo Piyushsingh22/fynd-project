@@ -1,6 +1,9 @@
 import datetime
 import pandas as pd
 import csv
+import matplotlib.pyplot as plt
+
+import numpy as np
 
 
 class Student:
@@ -20,7 +23,7 @@ class Student:
                     if count == len(date_present):
                         print(f"{stuid} is absent on {checkdate}")
 
-    def week_attendance(self, startdate, enddate):
+    def week_attendance(self, startdate, enddate, working_days):
         present_count = 0
         # with open("Attend_data.csv", "r") as csvfile:
         #     csv_reader = csv.DictReader(csvfile)
@@ -42,8 +45,18 @@ class Student:
                 start_date_conv += delta
                 if end_date_conv == df['date'][n]:
                     break
-        print(present_count)
 
+        print(present_count)
+        print(working_days)
+
+        # creating pie chart
+        data = [present_count, working_days - present_count]
+        labels = ["Present", "Absent"]
+
+        fig = plt.figure(figsize=(10, 7))
+        plt.pie(data, labels=labels)
+        # plt.show()
+        plt.savefig('demo.png', bbox_inches='tight')
 
 
 
@@ -72,7 +85,8 @@ while True:
         if response == "2":
             week_start = input("Please enter week's starting date in YYYY-MM-DD format: ")
             week_end = input("Please enter week's ending date in YYYY-MM-DD format: ")
-            objStudent.week_attendance(week_start, week_end)
+            working_days = int(input("Please enter no. of working days in a week "))
+            objStudent.week_attendance(week_start, week_end, working_days)
 
         # view_more = input("Want to see details again?").lower()
         # if view_more =='y':
