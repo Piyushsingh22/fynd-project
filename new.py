@@ -17,20 +17,14 @@ class Student:
 
             for check in range(len(date_present)):
                 if checkdate == date_present[check]:
-                    print(f"{stuid} is present on {checkdate}")
+                    print(f"{stuid} was present on {checkdate}")
                 if checkdate != date_present[check]:
                     count +=1
                     if count == len(date_present):
-                        print(f"{stuid} is absent on {checkdate}")
+                        print(f"{stuid} was absent on {checkdate}")
 
-    def week_attendance(self, startdate, enddate, working_days):
+    def week_attendance(self, startdate, enddate, working_days, user_name):
         present_count = 0
-        # with open("Attend_data.csv", "r") as csvfile:
-        #     csv_reader = csv.DictReader(csvfile)
-        #
-        #     next(csv_reader)
-            #date_present2 = [row['date'].split(",")[0] for row in csv_reader]
-
         df = pd.read_csv("Attend_data.csv")
         # df = pd.DataFrame()
         df['date'] = pd.to_datetime(df['date'], format="%Y-%m-%d")
@@ -40,11 +34,17 @@ class Student:
         # print(dfr['date'][0])
 
         for n in range(len(df['date'])):
+            if start_date_conv < df['date'][n]:
+                start_date_conv += delta
+
             if start_date_conv == df['date'][n]:
                 present_count += 1
                 start_date_conv += delta
                 if end_date_conv == df['date'][n]:
                     break
+
+
+
 
         print(present_count)
         print(working_days)
@@ -52,13 +52,49 @@ class Student:
         # creating pie chart
         data = [present_count, working_days - present_count]
         labels = ["Present", "Absent"]
+        explode = [0.2, 0]
 
-        fig = plt.figure(figsize=(10, 7))
-        plt.pie(data, labels=labels)
+        fig = plt.subplots(figsize=(10, 7))
+        plt.pie(data, labels=labels, explode=explode, shadow=True, autopct='%1.1f%%')
         # plt.show()
-        plt.savefig('demo.png', bbox_inches='tight')
+        plt.legend()
+        plt.title(f"{user_name}'s weekly attendance report")
+        plt.savefig(f'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name}week.png', bbox_inches='tight')
 
+    def month_attendance(self, monthstart, month_end, working_days_mon, user_name):
+        monthly_pre_count = 0
+        df = pd.read_csv("Attend_data.csv")
+        # df = pd.DataFrame()
+        df['date'] = pd.to_datetime(df['date'], format="%Y-%m-%d")
+        start_date_mon = datetime.datetime.strptime(monthstart, "%Y-%m-%d")
+        end_date_mon = datetime.datetime.strptime(month_end, "%Y-%m-%d")
+        delta = datetime.timedelta(days=1)
+        # print(dfr['date'][0])
 
+        for n in range(len(df['date'])):
+            if start_date_mon < df['date'][n]:
+                start_date_mon += delta
+
+            if start_date_mon == df['date'][n]:
+                monthly_pre_count += 1
+                start_date_mon += delta
+                if end_date_mon == df['date'][n]:
+                    break
+
+        print(monthly_pre_count)
+        print(working_days_mon)
+
+        #creating pie chart
+        data = [monthly_pre_count, working_days_mon - monthly_pre_count]
+        labels = ["Present", "Absent"]
+        explode = [0.2, 0]
+
+        fig = plt.subplots(figsize=(10, 7))
+        plt.pie(data, labels=labels, explode=explode, shadow=True, autopct='%1.1f%%')
+        # plt.show()
+        plt.legend()
+        plt.title(f"{user_name}'s monthly attendance report")
+        plt.savefig(f'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name}month.png', bbox_inches='tight')
 
 
 
@@ -85,15 +121,29 @@ while True:
         if response == "2":
             week_start = input("Please enter week's starting date in YYYY-MM-DD format: ")
             week_end = input("Please enter week's ending date in YYYY-MM-DD format: ")
-            working_days = int(input("Please enter no. of working days in a week "))
-            objStudent.week_attendance(week_start, week_end, working_days)
+            working_days = int(input("Please enter no. of working days in a week: "))
+            user_name = input("Please enter user name: ")
+            objStudent.week_attendance(week_start, week_end, working_days, user_name)
 
-        # view_more = input("Want to see details again?").lower()
-        # if view_more =='y':
-        #     continue
+        if response == "3":
+            month_start = input("Please enter month's starting date in YYYY-MM-DD format: ")
+            month_end = input("Please enter month's ending date in YYYY-MM-DD format: ")
+            working_days_mon = int(input("Please enter no. of working days in a month: "))
+            user_name = input("Please enter user name: ")
+            objStudent.month_attendance(month_start, month_end, working_days_mon, user_name)
 
+        if response != "1" or "2" or "3":
+            print("Please enter a valid input from the list above")
 
+        view_more = input("Want to see details again?\nans(y/n)").lower()
+        if view_more == "y" or view_more == "n":
+            break
         else:
             print("Please enter a valid input")
+        if view_more == "y":
+            continue
+        else:
             break
     break
+
+
