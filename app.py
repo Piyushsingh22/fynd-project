@@ -113,56 +113,53 @@ while True:
 
     while True:
         if response == "1":
+            stu_id = input("Please enter user name: ")
+            check_date = input("Please enter date in YYYY-MM-DD format: ")
+            objStudent.view_studata(stu_id, check_date)
             while True:
-                stu_id = input("Please enter user name: ")
-                check_date = input("Please enter date in YYYY-MM-DD format: ")
-                objStudent.view_studata(stu_id, check_date)
-                while True:
-                    see_more = input("Want to see details again?\nans(y/n): ").lower()
-                    if see_more == "y" or see_more == "n":
-                        break
-                    else:
-                        print("Please enter a valid input ")
-                if see_more == "y":
-                    continue
-                else:
+                see_more = input("Want to see details again?\nans(y/n): ").lower()
+                if see_more == "y" or see_more == "n":
                     break
+                else:
+                    print("Please enter a valid input: ")
+            if see_more == "y":
+                continue
+            else:
+                break
 
         elif response == "2":
+            week_start = input("Please enter week's starting date in YYYY-MM-DD format: ")
+            week_end = input("Please enter week's ending date in YYYY-MM-DD format: ")
+            working_days = int(input("Please enter no. of working days in a week: "))
+            user_name = input("Please enter user name: ")
+            objStudent.week_attendance(week_start, week_end, working_days, user_name)
             while True:
-                week_start = input("Please enter week's starting date in YYYY-MM-DD format: ")
-                week_end = input("Please enter week's ending date in YYYY-MM-DD format: ")
-                working_days = int(input("Please enter no. of working days in a week: "))
-                user_name = input("Please enter user name: ")
-                objStudent.week_attendance(week_start, week_end, working_days, user_name)
-                while True:
-                    see_more = input("Want to see details again?\nans(y/n): ").lower()
-                    if see_more == "y" or see_more == "n":
-                        break
-                    else:
-                        print("Please enter a valid input ")
-                if see_more == "y":
-                    continue
-                else:
+                see_more = input("Want to see details again?\nans(y/n): ").lower()
+                if see_more == "y" or see_more == "n":
                     break
+                else:
+                    print("Please enter a valid input: ")
+            if see_more == "y":
+                continue
+            else:
+                break
 
         elif response == "3":
+            month_start = input("Please enter month's starting date in YYYY-MM-DD format: ")
+            month_end = input("Please enter month's ending date in YYYY-MM-DD format: ")
+            working_days_mon = int(input("Please enter no. of working days in a month: "))
+            user_name = input("Please enter user name: ")
+            objStudent.month_attendance(month_start, month_end, working_days_mon, user_name)
             while True:
-                month_start = input("Please enter month's starting date in YYYY-MM-DD format: ")
-                month_end = input("Please enter month's ending date in YYYY-MM-DD format: ")
-                working_days_mon = int(input("Please enter no. of working days in a month: "))
-                user_name = input("Please enter user name: ")
-                objStudent.month_attendance(month_start, month_end, working_days_mon, user_name)
-                while True:
-                    see_more = input("Want to see details again?\nans(y/n): ").lower()
-                    if see_more == "y" or see_more == "n":
-                        break
-                    else:
-                        print("Please enter a valid input ")
-                if see_more == "y":
-                    continue
-                else:
+                see_more = input("Want to see details again?\nans(y/n): ").lower()
+                if see_more == "y" or see_more == "n":
                     break
+                else:
+                    print("Please enter a valid input: ")
+            if see_more == "y":
+                continue
+            else:
+                break
 
         else:
             print("Please enter a valid input ")
