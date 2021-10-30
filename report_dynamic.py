@@ -3,8 +3,6 @@ import pandas as pd
 import csv
 import matplotlib.pyplot as plt
 
-# import numpy as np
-
 
 class Student:
     def view_studata(self, stuid, checkdate):
@@ -42,8 +40,8 @@ class Student:
                 if end_date_conv == df['date'][n]:
                     break
 
-        print(present_count)
-        print(working_days)
+        print("\nNo. of days present in a week: ", present_count)
+        print("Total no. of working days: ", working_days)
 
         # creating pie chart
         data = [present_count, working_days - present_count]
@@ -79,8 +77,8 @@ class Student:
                 if end_date_mon == df['date'][n]:
                     break
 
-        print(monthly_pre_count)
-        print(working_days_mon)
+        print("\nNo. of days present in a month: ", monthly_pre_count)
+        print("Total no. of working days: ", working_days_mon)
 
         #creating pie chart
         data = [monthly_pre_count, working_days_mon - monthly_pre_count]
@@ -95,17 +93,11 @@ class Student:
         plt.savefig(f'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name}month.png', bbox_inches='tight')
 
 
-
-
-
-
-
-
 objStudent = Student()
 run = True
 print("Welcome to Attendance Report and Analytics")
 while run:
-    print("1. View Student Report on a particular day")
+    print("\n1. View Student Report on a particular day")
     print("2. View Student Report in a particular week")
     print("3. View Student Report for a particular month")
     print("4. Quit\n")
@@ -117,7 +109,7 @@ while run:
             check_date = input("Please enter date in YYYY-MM-DD format: ")
             objStudent.view_studata(stu_id, check_date)
             while True:
-                see_more = input("Want to see details again?\nans(y/n): ").lower()
+                see_more = input("\nWant to see details again?\nans(y/n): ").lower()
                 if see_more == "y" or see_more == "n":
                     break
                 else:
@@ -134,7 +126,7 @@ while run:
             user_name = input("Please enter user name: ")
             objStudent.week_attendance(week_start, week_end, working_days, user_name)
             while True:
-                see_more = input("Want to see details again?\nans(y/n): ").lower()
+                see_more = input("\nWant to see details again?\nans(y/n): ").lower()
                 if see_more == "y" or see_more == "n":
                     break
                 else:
@@ -151,7 +143,7 @@ while run:
             user_name = input("Please enter user name: ")
             objStudent.month_attendance(month_start, month_end, working_days_mon, user_name)
             while True:
-                see_more = input("Want to see details again?\nans(y/n): ").lower()
+                see_more = input("\nWant to see details again?\nans(y/n): ").lower()
                 if see_more == "y" or see_more == "n":
                     break
                 else:
@@ -167,35 +159,3 @@ while run:
         else:
             print("Please enter a valid input ")
             break
-
-
-# while True:
-#         if response == "1":
-#             stu_id = input("Please enter user name: ")
-#             check_date = input("Please enter date in YYYY-MM-DD format: ")
-#             objStudent.view_studata(stu_id, check_date)
-#             # objStudent.view_studata()
-#
-#         if response == "2":
-#             week_start = input("Please enter week's starting date in YYYY-MM-DD format: ")
-#             week_end = input("Please enter week's ending date in YYYY-MM-DD format: ")
-#             working_days = int(input("Please enter no. of working days in a week: "))
-#             user_name = input("Please enter user name: ")
-#             objStudent.week_attendance(week_start, week_end, working_days, user_name)
-#
-#         if response == "3":
-#             month_start = input("Please enter month's starting date in YYYY-MM-DD format: ")
-#             month_end = input("Please enter month's ending date in YYYY-MM-DD format: ")
-#             working_days_mon = int(input("Please enter no. of working days in a month: "))
-#             user_name = input("Please enter user name: ")
-#             objStudent.month_attendance(month_start, month_end, working_days_mon, user_name)
-#
-#         if response != "1" or "2" or "3":
-#             print("Please enter a valid input from the list above")
-#
-#         view_more = input("Want to see details again?\nans(y/n)").lower()
-#         if view_more == "y" or view_more == "n":
-#             break
-
-
-
