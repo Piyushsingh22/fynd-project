@@ -9,6 +9,8 @@ def home():
 
 @app.route("/day", methods=['GET', 'POST'])
 def day():
+    ans = ""
+
     if request.method == 'POST':
         user_name = request.form.get('user_name')
         check_date = request.form.get('check_date')
@@ -22,13 +24,13 @@ def day():
 
             for check in range(len(date_present)):
                 if check_date == date_present[check]:
-                    result = f"{user_name} was present on {check_date}"
+                    ans = f"{user_name} was present on {check_date}"
                 if check_date != date_present[check]:
                     count += 1
                     if count == len(date_present):
-                        result = f"{user_name} was absent on {check_date}"
+                        ans = f"{user_name} was absent on {check_date}"
 
-    return render_template("day.html",name=result)
+    return render_template("day.html",ans=ans)
 
 
 @app.route("/week", methods=['GET', 'POST'])
