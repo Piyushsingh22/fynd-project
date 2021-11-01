@@ -37,9 +37,63 @@ def day():
     return render_template("day.html",ans=ans)
 
 
+@app.route("/month", methods=['GET', 'POST'])
+def month():
+    pre_month = 0
+    pre_mon_str= ''
+    wd_month = ''
+
+    if request.method == 'POST':
+        user_name_month = request.form.get('user_name_month')
+        month_start = request.form.get("month_start")
+        month_end = request.form.get("month_end")
+        workdays_month = request.form.get("workdays_month")
+
+
+        df = pd.read_csv("Attend_data.csv")
+        # df = pd.DataFrame()
+        df['date'] = pd.to_datetime(df['date'], format="%Y-%m-%d")
+        start_date_conv = datetime.datetime.strptime(month_start, "%Y-%m-%d")
+        end_date_conv = datetime.datetime.strptime(month_end, "%Y-%m-%d")
+        delta = datetime.timedelta(days=1)
+        # print(dfr['date'][0])
+
+        for n in range(len(df['date'])):
+            while start_date_conv < df['date'][n]:
+                start_date_conv += delta
+
+            if start_date_conv == df['date'][n]:
+                pre_month+= 1
+                start_date_conv += delta
+                if end_date_conv == df['date'][n]:
+                    break
+
+        pre_mon_str = f"\nNo. of days present in a week: {pre_month}"
+        wd_month = f"Total no. of working days: {workdays_month}"
+
+        # creating pie chart
+        workdays_mn = int(workdays_month)
+        data = [pre_month, workdays_mn - pre_month]
+
+        labels = ["Present", "Absent"]
+        explode = [0.2, 0]
+
+        fig = plt.subplots(figsize=(10, 7))
+        plt.pie(data, labels=labels, explode=explode, shadow=True, autopct='%1.1f%%')
+        # plt.show()
+        plt.legend()
+        plt.title(f"{user_name_month}'s weekly attendance report")
+        monthreport = plt.savefig(f'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name_month}month.png',
+                    bbox_inches='tight')
+
+    return render_template("month.html", pre_mon_str=pre_mon_str, wd_month=wd_month )
+
+
 @app.route("/week", methods=['GET', 'POST'])
 def week():
     present_count = 0
+    present_str = ''
+    wd_week = ''
 
     if request.method == 'POST':
         user_name_week = request.form.get('user_name_week')
@@ -47,7 +101,6 @@ def week():
         week_end = request.form.get("week_end")
         workdays_week = request.form.get("workdays_week")
         # print(workdays_week)
-
 
         df = pd.read_csv("Attend_data.csv")
         # df = pd.DataFrame()
@@ -67,8 +120,8 @@ def week():
                 if end_date_conv == df['date'][n]:
                     break
 
-        print("\nNo. of days present in a week: ", present_count)
-        print("Total no. of working days: ", workdays_week)
+        present_str = f"\nNo. of days present in a week: {present_count}"
+        wd_week = f"Total no. of working days: {workdays_week}"
 
         # creating pie chart
         workdays_wk = int(workdays_week)
@@ -83,14 +136,11 @@ def week():
         # plt.show()
         plt.legend()
         plt.title(f"{user_name_week}'s weekly attendance report")
-        plt.savefig(f'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name_week}week.png',
-                    bbox_inches='tight')
+        weekreport = plt.savefig(
+            f'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name_week}week.png',
+            bbox_inches='tight')
 
-    return render_template("week.html")
-
-@app.route("/month", methods=['GET', 'POST'])
-def month():
-   pass
+    return render_template("week.html", present_str=present_str, wd_week=wd_week)
 
 
 if __name__ == "__main__":
