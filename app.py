@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 import csv
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -91,6 +91,7 @@ def month():
 
 @app.route("/week", methods=['GET', 'POST'])
 def week():
+    global user_name_week
     present_count = 0
     present_str = ''
     wd_week = ''
@@ -133,14 +134,19 @@ def week():
 
         fig = plt.subplots(figsize=(10, 7))
         plt.pie(data, labels=labels, explode=explode, shadow=True, autopct='%1.1f%%')
-        # plt.show()
+        # report = plt.show()
         plt.legend()
         plt.title(f"{user_name_week}'s weekly attendance report")
         weekreport = plt.savefig(
-            f'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name_week}week.png',
+            f'/home/piyush/PycharmProjects/Finalproject/fynd-project/static/{user_name_week}week.png',
             bbox_inches='tight')
 
     return render_template("week.html", present_str=present_str, wd_week=wd_week)
+
+@app.route('/weekreport')
+def week_report():
+    filename = f'/home/piyush/PycharmProjects/Finalproject/fynd-project/static/{user_name_week}week.png'
+    return send_file(filename, mimetype='image')
 
 
 if __name__ == "__main__":
