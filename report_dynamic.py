@@ -37,7 +37,11 @@ class Student:
             if start_date_conv == df['date'][n]:
                 present_count += 1
                 start_date_conv += delta
-                if end_date_conv == df['date'][n]:
+                if end_date_conv < df['date'][n]:
+                    break
+                elif end_date_conv == df['date'][n]:
+                    break
+                elif end_date_conv == start_date_conv:
                     break
 
         print("\nNo. of days present in a week: ", present_count)
