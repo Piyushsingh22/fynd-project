@@ -11,12 +11,11 @@ class Student:
             csv_reader = csv.DictReader(csvfile)
             date_present = [row['date'].split(",")[0] for row in csv_reader]
 
-
             for check in range(len(date_present)):
                 if checkdate == date_present[check]:
                     print(f"{stuid} was present on {checkdate}")
                 if checkdate != date_present[check]:
-                    count +=1
+                    count += 1
                     if count == len(date_present):
                         print(f"{stuid} was absent on {checkdate}")
 
@@ -30,19 +29,19 @@ class Student:
         delta = datetime.timedelta(days=1)
         # print(dfr['date'][0])
 
-        for n in range(len(df['date'])):
-            while start_date_conv < df['date'][n]:
-                start_date_conv += delta
 
-            if start_date_conv == df['date'][n]:
-                present_count += 1
-                start_date_conv += delta
-                if end_date_conv < df['date'][n]:
-                    break
-                elif end_date_conv == df['date'][n]:
-                    break
-                elif end_date_conv == start_date_conv:
-                    break
+        for name in range(len(df['user_name'])):
+            if df['user_name'][name] == user_name:
+                # for n in range(len(df['date'])):
+                while start_date_conv < df['date'][name]:
+                    start_date_conv += delta
+
+                if start_date_conv == df['date'][name]:
+                    if end_date_conv <= df['date'][name]:
+                        break
+                    else:
+                        present_count += 1
+                        start_date_conv += delta
 
         print("\nNo. of days present in a week: ", present_count)
         print("Total no. of working days: ", working_days)
@@ -59,7 +58,7 @@ class Student:
         # plt.show()
         plt.legend()
         plt.title(f"{user_name}'s weekly attendance report")
-        plt.savefig(f'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name}week.png', bbox_inches='tight')
+        plt.savefig(rf'C:\Users\si012\PycharmProjects\fynd-project\Attendance_Stats\{user_name}week.png', bbox_inches='tight')
 
     def month_attendance(self, monthstart, month_end, working_days_mon, user_name):
         monthly_pre_count = 0
@@ -71,15 +70,17 @@ class Student:
         delta = datetime.timedelta(days=1)
         # print(dfr['date'][0])
 
-        for n in range(len(df['date'])):
-            while start_date_mon < df['date'][n]:
-                start_date_mon += delta
+        for name in range(len(df['user_name'])):
+            if df['user_name'][name] == user_name:
+                # for n in range(len(df['date'])):
+                while start_date_mon < df['date'][name]:
+                    start_date_mon += delta
 
-            if start_date_mon == df['date'][n]:
-                monthly_pre_count += 1
-                start_date_mon += delta
-                if end_date_mon == df['date'][n]:
-                    break
+                if start_date_mon == df['date'][name]:
+                    monthly_pre_count += 1
+                    start_date_mon += delta
+                    if end_date_mon <= df['date'][name]:
+                        break
 
         print("\nNo. of days present in a month: ", monthly_pre_count)
         print("Total no. of working days: ", working_days_mon)
@@ -94,7 +95,7 @@ class Student:
         # plt.show()
         plt.legend()
         plt.title(f"{user_name}'s monthly attendance report")
-        plt.savefig(f'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name}month.png', bbox_inches='tight')
+        plt.savefig(rf'C:\Users\si012\PycharmProjects\fynd-project\Attendance_Stats\{user_name}month.png', bbox_inches='tight')
 
 
 objStudent = Student()

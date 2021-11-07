@@ -6,6 +6,7 @@ import datetime
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -18,8 +19,6 @@ def day():
     if request.method == 'POST':
         user_name = request.form.get('user_name')
         check_date = request.form.get('check_date')
-        # print(user_name)
-        # print(check_date)
 
         count = 0
         with open("Attend_data.csv", "r") as csvfile:
@@ -59,19 +58,22 @@ def week():
         delta = datetime.timedelta(days=1)
         # print(dfr['date'][0])
 
-        for n in range(len(df['date'])):
-            while start_date_conv < df['date'][n]:
-                start_date_conv += delta
+        for name in range(len(df['user_name'])):
+            if df['user_name'][name] == user_name_week:
+                # for n in range(len(df['date'])):
+                while start_date_conv < df['date'][name]:
+                    start_date_conv += delta
 
-            if start_date_conv == df['date'][n]:
-                present_count += 1
-                start_date_conv += delta
-                if end_date_conv < df['date'][n]:
-                    break
-                elif end_date_conv == df['date'][n]:
-                    break
-                elif end_date_conv == start_date_conv:
-                    break
+                if start_date_conv == df['date'][name]:
+                    if end_date_conv < df['date'][name]:
+                        break
+                    else:
+                        present_count += 1
+                        start_date_conv += delta
+                    # elif end_date_conv <= df['date'][name]:
+                    #     break
+                    # elif end_date_conv == start_date_conv:
+                    #     break
 
         present_str = f"\nNo. of days present in a week: {present_count}"
         wd_week = f"Total no. of working days: {workdays_week}"
@@ -90,7 +92,7 @@ def week():
         plt.legend()
         plt.title(f"{user_name_week}'s weekly attendance report")
         weekreport = plt.savefig(
-            f'/home/piyush/PycharmProjects/Finalproject/fynd-project/static/{user_name_week}week.png',
+            rf'C:\Users\si012\PycharmProjects\fynd-project\static\{user_name_week}week.png',
             bbox_inches='tight')
 
     return render_template("week.html", present_str=present_str, wd_week=wd_week)
@@ -98,14 +100,14 @@ def week():
 
 @app.route('/weekreport')
 def week_report():
-    filename = f'/home/piyush/PycharmProjects/Finalproject/fynd-project/static/{user_name_week}week.png'
+    filename = rf'C:\Users\si012\PycharmProjects\fynd-project\static\{user_name_week}week.png'
     return send_file(filename, mimetype='image')
 
 
 @app.route("/month", methods=['GET', 'POST'])
 def month():
     pre_month = 0
-    pre_mon_str= ''
+    pre_mon_str = ''
     wd_month = ''
     global user_name_month
 
@@ -115,7 +117,6 @@ def month():
         month_end = request.form.get("month_end")
         workdays_month = request.form.get("workdays_month")
 
-
         df = pd.read_csv("Attend_data.csv")
         # df = pd.DataFrame()
         df['date'] = pd.to_datetime(df['date'], format="%Y-%m-%d")
@@ -124,17 +125,22 @@ def month():
         delta = datetime.timedelta(days=1)
         # print(dfr['date'][0])
 
-        for n in range(len(df['date'])):
-            while start_date_conv < df['date'][n]:
-                start_date_conv += delta
+        for name in range(len(df['user_name'])):
+            if df['user_name'][name] == user_name_month:
+                # for n in range(len(df['date'])):
+                while start_date_conv < df['date'][name]:
+                    start_date_conv += delta
 
-            if start_date_conv == df['date'][n]:
-                pre_month += 1
-                start_date_conv += delta
-                if end_date_conv < df['date'][n]:
-                    break
-                elif end_date_conv == df['date'][n]:
-                    break
+                if start_date_conv == df['date'][name]:
+                    if end_date_conv < df['date'][name]:
+                        break
+                    else:
+                        pre_month += 1
+                        start_date_conv += delta
+                    # elif end_date_conv <= df['date'][name]:
+                    #     break
+                    # elif end_date_conv == start_date_conv:
+                    #     break
 
         pre_mon_str = f"\nNo. of days present in a week: {pre_month}"
         wd_month = f"Total no. of working days: {workdays_month}"
@@ -150,17 +156,17 @@ def month():
         plt.pie(data, labels=labels, explode=explode, shadow=True, autopct='%1.1f%%')
         # plt.show()
         plt.legend()
-        plt.title(f"{user_name_month}'s weekly attendance report")
+        plt.title(f"{user_name_month}'s monthly attendance report")
         monthreport = plt.savefig(
-            f'/home/piyush/PycharmProjects/Finalproject/fynd-project/static/{user_name_month}month.png',
-                    bbox_inches='tight')
+            rf'C:\Users\si012\PycharmProjects\fynd-project\static\{user_name_month}month.png',
+            bbox_inches='tight')
 
-    return render_template("month.html", pre_mon_str=pre_mon_str, wd_month=wd_month )
+    return render_template("month.html", pre_mon_str=pre_mon_str, wd_month=wd_month)
 
 
 @app.route('/monthreport')
 def month_report():
-    filename = f'/home/piyush/PycharmProjects/Finalproject/fynd-project/static/{user_name_month}month.png'
+    filename = rf'C:\Users\si012\PycharmProjects\fynd-project\static\{user_name_month}month.png'
     return send_file(filename, mimetype='image')
 
 
