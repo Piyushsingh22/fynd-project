@@ -58,7 +58,7 @@ class Student:
         # plt.show()
         plt.legend()
         plt.title(f"{user_name}'s weekly attendance report")
-        plt.savefig(rf'C:\Users\si012\PycharmProjects\fynd-project\Attendance_Stats\{user_name}week.png', bbox_inches='tight')
+        plt.savefig(rf'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name}week.png', bbox_inches='tight')
 
     def month_attendance(self, monthstart, month_end, working_days_mon, user_name):
         monthly_pre_count = 0
@@ -95,7 +95,7 @@ class Student:
         # plt.show()
         plt.legend()
         plt.title(f"{user_name}'s monthly attendance report")
-        plt.savefig(rf'C:\Users\si012\PycharmProjects\fynd-project\Attendance_Stats\{user_name}month.png', bbox_inches='tight')
+        plt.savefig(rf'/home/piyush/PycharmProjects/Finalproject/fynd-project/Attendance_Stats/{user_name}month.png', bbox_inches='tight')
 
 
 objStudent = Student()

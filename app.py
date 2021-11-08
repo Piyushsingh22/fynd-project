@@ -92,7 +92,7 @@ def week():
         plt.legend()
         plt.title(f"{user_name_week}'s weekly attendance report")
         weekreport = plt.savefig(
-            rf'C:\Users\si012\PycharmProjects\fynd-project\static\{user_name_week}week.png',
+            f'/home/piyush/PycharmProjects/Finalproject/fynd-project/static/{user_name_week}week.png',
             bbox_inches='tight')
 
     return render_template("week.html", present_str=present_str, wd_week=wd_week)
@@ -100,7 +100,7 @@ def week():
 
 @app.route('/weekreport')
 def week_report():
-    filename = rf'C:\Users\si012\PycharmProjects\fynd-project\static\{user_name_week}week.png'
+    filename = f'/home/piyush/PycharmProjects/Finalproject/fynd-project/static/{user_name_week}week.png'
     return send_file(filename, mimetype='image')
 
 
@@ -158,7 +158,7 @@ def month():
         plt.legend()
         plt.title(f"{user_name_month}'s monthly attendance report")
         monthreport = plt.savefig(
-            rf'C:\Users\si012\PycharmProjects\fynd-project\static\{user_name_month}month.png',
+            f'/home/piyush/PycharmProjects/Finalproject/fynd-project/static/{user_name_month}month.png',
             bbox_inches='tight')
 
     return render_template("month.html", pre_mon_str=pre_mon_str, wd_month=wd_month)
@@ -166,7 +166,7 @@ def month():
 
 @app.route('/monthreport')
 def month_report():
-    filename = rf'C:\Users\si012\PycharmProjects\fynd-project\static\{user_name_month}month.png'
+    filename = f'/home/piyush/PycharmProjects/Finalproject/fynd-project/static/{user_name_month}month.png'
     return send_file(filename, mimetype='image')
 
 
